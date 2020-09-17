@@ -2,7 +2,7 @@
   <div id="app">
     <router-view />
     <div class="footer">
-      <p>DARTS - 0.1.1 Alpha</p>
+      <p>DARTS - 0.1.2 Alpha</p>
     </div>
   </div>
 </template>

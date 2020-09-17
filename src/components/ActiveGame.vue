@@ -145,7 +145,6 @@ export default {
       if (index !== this.players.findIndex((x) => x.isUp)) {
         this.addLetter(index);
       }
-
       // increment active player
       if (index === this.players.length - 1) {
         this.makePlayerShooter(0);
