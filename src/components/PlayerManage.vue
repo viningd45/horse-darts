@@ -1,5 +1,5 @@
 <template>
-  <div class="playerAdd">
+  <div class="playerMange">
     <div class="header">Player View</div>
     <custom-input
       placeholder="Add Person"
@@ -22,7 +22,7 @@
 import CustomInput from "./CustomInput";
 
 export default {
-  name: "PlayerAdd",
+  name: "PlayerManage",
   components: {
     "custom-input": CustomInput,
   },

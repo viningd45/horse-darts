@@ -1,7 +1,9 @@
 <template>
   <div class="home">
-    <NewGame v-if="!this.currentGame.isActive"/>
-    <Game v-if="this.currentGame.isActive"/>
+    <transition name="slide">
+      <NewGame v-if="!this.currentGame.isActive" />
+      <Game v-if="this.currentGame.isActive" />
+    </transition>
   </div>
 </template>
 
@@ -14,16 +16,27 @@ export default {
   name: "Home",
   components: {
     NewGame,
-    Game
+    Game,
   },
-  data: () => ({
-  }),
-  mounted() {
-  },
+  data: () => ({}),
+  mounted() {},
   computed: {
-    currentGame: function() {
+    currentGame: function () {
       return this.$store.getters.getCurrentGame;
-    }
-  }
+    },
+  },
 };
 </script>
+
+<style scoped>
+.slide-leave-active,
+.slide-enter-active {
+  transition: 1s;
+}
+.slide-enter {
+  transform: translate(100%, 0);
+}
+.slide-leave-to {
+  transform: translate(-100%, 0);
+}
+</style>

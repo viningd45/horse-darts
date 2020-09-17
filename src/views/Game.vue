@@ -1,10 +1,8 @@
 <template>
   <div class="game">
-    <div>
-      <player-manage v-if="selectedItem === '1'"/>
-      <active-game v-if="selectedItem === '2'"/>
-      <manage-game v-if="selectedItem === '3'"/>
-    </div>
+    <player-manage v-if="selectedItem === '1'" />
+    <active-game v-if="selectedItem === '2'" />
+    <manage-game v-if="selectedItem === '3'" />
     <transition name="fade">
       <div v-if="menuVis" class="menu-stuff">
         <el-menu :default-active="selectedItem" class="el-menu-vertical-demo">
@@ -33,19 +31,28 @@ export default {
   data: function () {
     return {
       menuVis: false,
-      selectedItem: '1'
+      selectedItem: "1",
+      lastSelected: "1",
     };
   },
   methods: {
-      selectItem: function (index) {
-          this.selectedItem = index;
-          this.menuVis = false;
-      }
-  }
+    selectItem: function (index) {
+      this.selectedItem = index;
+      this.menuVis = false;
+    },
+  },
 };
 </script>
 
 <style scoped>
+.game {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
 .menu-icon {
   border-radius: 90px;
   position: fixed;
@@ -71,7 +78,7 @@ export default {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 1.0s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;

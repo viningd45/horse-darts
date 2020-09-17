@@ -63,6 +63,28 @@
         <el-button type="primary" class="wide-button" :disabled="inDevelopment">Add Letters</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      v-if="winnerAvailable"
+      :visible.sync="winnerAvailable"
+      width="80%"
+      :modal="true"
+    >
+      <span slot="title" class="endGameTitle">{{winner.name + ' won!'}}</span>
+      <div>
+        <el-button
+          type="primary"
+          class="wide-button"
+          @click="$store.commit('resetPlayers'); setFirstPlayerActive();"
+        >Play Again</el-button>
+      </div>
+      <div>
+        <el-button
+          type="primary"
+          class="wide-button"
+          @click="$store.commit('deleteCurrentGame');"
+        >Quit</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -86,6 +108,16 @@ export default {
     selectedPlayer: function () {
       return this.players[this.selectedPlayerIndex];
     },
+    winner: function () {
+      var win = null;
+      if (this.players.filter((x) => !x.isOut).length === 1) {
+        win = this.players.filter((x) => !x.isOut)[0];
+      }
+      return win;
+    },
+    winnerAvailable: function () {
+      return this.winner === null ? false : true;
+    },
   },
   methods: {
     makePlayerShooter: function (index) {
@@ -93,9 +125,6 @@ export default {
     },
     addLetter: function (index) {
       this.$store.commit("addPlayerLetter", index);
-      if (this.players.filter((x) => !x.isOut).length === 1) {
-        this.endGamePrompt(this.players.filter((x) => !x.isOut)[0]);
-      }
     },
     // eslint-disable-next-line no-unused-vars
     tableRowClassName({ row, rowIndex }) {
@@ -126,20 +155,6 @@ export default {
         }
         this.makePlayerShooter(index + 1);
       }
-    },
-    endGamePrompt(winner) {
-      this.$confirm(`Game over; ${winner.name} wins!`, {
-        confirmButtonText: "Play Again",
-        cancelButtonText: "Quit",
-      })
-        .then(() => {
-          this.$store.commit("resetPlayers");
-          this.setFirstPlayerActive();
-        })
-        .catch(() => {
-          this.$store.commit("deleteCurrentGame");
-          // this.$router.push({ path: '/' })
-        });
     },
     setFirstPlayerActive() {
       if (!this.shooter && this.players.length > 0) {
@@ -181,5 +196,10 @@ export default {
 .el-table .out-row {
   background: gray;
   color: white;
+}
+
+.endGameTitle {
+  font-weight: bold;
+  font-size: 1.5em;
 }
 </style>
